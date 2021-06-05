@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class GameManager : MonoBehaviour
     // Recipe info
     public int[] recipe;
 
+    // Timer info
+    private float timer = 0;
+    private bool timer_running = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +49,7 @@ public class GameManager : MonoBehaviour
 
         SpawnMissingFruit();
         SetRecipe();
+        SetTimer();
     }
 
     // Update is called once per frame
@@ -96,6 +102,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate() {
+        if(timer > 0) {
+            timer -= Time.deltaTime;
+            timerText.SetText(String.Format("{0}s", Mathf.FloorToInt(timer)));
+        } else {
+            // Time ran out
+            timer = 0;
+            timer_running = false;
+
+            timerText.SetText(String.Format("{0}s", Mathf.FloorToInt(timer)));
+            Lose();
+        }
+    }
+
     public void SpawnMissingFruit() {
         int[] fruit = new int[Fruit_GO_Types.Length];
 
@@ -121,10 +141,10 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject GetRandomRock() {
-        GameObject chosen = rocks[Random.Range(0, rocks.Length)];
+        GameObject chosen = rocks[UnityEngine.Random.Range(0, rocks.Length)];
 
         while(chosen.GetComponent<RockSc>().held)
-            chosen = rocks[Random.Range(0, rocks.Length)];  // choose again
+            chosen = rocks[UnityEngine.Random.Range(0, rocks.Length)];  // choose again
 
         return chosen;
     }
@@ -138,7 +158,7 @@ public class GameManager : MonoBehaviour
         recipe = new int[Fruit_GO_Types.Length];
 
         for(int i = 0; i < recipe.Length; i++) {
-            recipe[i] = Random.Range(0, max_fruit_number+1);
+            recipe[i] = UnityEngine.Random.Range(0, max_fruit_number+1);
         }
 
         bool all_zero = true;
@@ -155,8 +175,6 @@ public class GameManager : MonoBehaviour
             strawberryText.SetText("" + recipe[0] + "x<sprite name=\"strawberry\">");
             blueberryText.SetText("" + recipe[1] + "x<sprite name=\"blueberry\">");
             grapeText.SetText("" + recipe[2] + "x<sprite name=\"grape\">");
-            //TODO: actually make a timer based on number of fruit in recipe and make it count down
-            timerText.SetText(Random.Range(10, 25) + "s");
         }
     }
 
@@ -182,5 +200,17 @@ public class GameManager : MonoBehaviour
 
     public void Win() {
         Debug.Log("You're a Win!");
+    }
+
+    public void Lose() {
+        Debug.Log("Ha ha, you're a lose!");
+    }
+
+    private void SetTimer() {
+        int sum_fruit = 0;
+        for(int i = 0; i < recipe.Length; i++) {
+            sum_fruit += recipe[i];
+        }
+        timer = 3 * sum_fruit + 5;
     }
 }
