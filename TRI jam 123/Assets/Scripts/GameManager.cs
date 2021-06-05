@@ -103,10 +103,10 @@ public class GameManager : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(timer > 0) {
+        if(timer_running && timer > 0) {
             timer -= Time.deltaTime;
             timerText.SetText(String.Format("{0}s", Mathf.FloorToInt(timer)));
-        } else {
+        } else if(timer_running) {
             // Time ran out
             timer = 0;
             timer_running = false;
@@ -200,10 +200,12 @@ public class GameManager : MonoBehaviour
 
     public void Win() {
         Debug.Log("You're a Win!");
+        timer_running = false;
     }
 
     public void Lose() {
         Debug.Log("Ha ha, you're a lose!");
+        timer_running = false;
     }
 
     private void SetTimer() {
@@ -211,6 +213,8 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < recipe.Length; i++) {
             sum_fruit += recipe[i];
         }
-        timer = 3 * sum_fruit + 5;
+        timer = 5 * sum_fruit + 5;
+
+        timer_running = true;
     }
 }
