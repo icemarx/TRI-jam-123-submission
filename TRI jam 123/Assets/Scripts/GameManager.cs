@@ -1,9 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    // UI references
+    [SerializeField]
+    private TextMeshProUGUI strawberryText;
+    [SerializeField]
+    private TextMeshProUGUI blueberryText;
+    [SerializeField]
+    private TextMeshProUGUI grapeText;
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+
     // Rock info
     private GameObject[] rocks;
 
@@ -137,6 +148,14 @@ public class GameManager : MonoBehaviour
         }
 
         if (all_zero) SetRecipe();
+        else
+        {
+            strawberryText.SetText("" + recipe[0] + "x<sprite name=\"strawberry\">");
+            blueberryText.SetText("" + recipe[1] + "x<sprite name=\"blueberry\">");
+            grapeText.SetText("" + recipe[2] + "x<sprite name=\"grape\">");
+            //TODO: actually make a timer based on number of fruit in recipe and make it count down
+            timerText.SetText(Random.Range(10, 25) + "s");
+        }
     }
 
     public bool IsRecipeDone() {
