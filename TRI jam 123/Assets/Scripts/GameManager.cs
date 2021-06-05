@@ -38,15 +38,12 @@ public class GameManager : MonoBehaviour
             cursor_state = CURSOR_STATE_DRAGGING;
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            Debug.Log(hit.collider);
 
             if(hit.collider != null && (hit.collider.CompareTag("Fruit") || hit.collider.CompareTag("Rock"))) {
-                Debug.Log("hit");
-
                 held_go = hit.collider.gameObject;
                 to_go_held = held_go.transform.position - mousePos;
-
-                // TODO: call onclicked
+                
+                held_go.GetComponent<NPC>().OnClicked();
             }
         }
 
@@ -60,7 +57,7 @@ public class GameManager : MonoBehaviour
             cursor_state = CURSOR_STATE_IDLE;
 
             if(held_go != null) {
-                // TODO: call ondropped
+                held_go.GetComponent<NPC>().OnDropped();
 
                 held_go = null;
             }
@@ -90,12 +87,17 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private GameObject GetRandomRock() {
+    public GameObject GetRandomRock() {
         GameObject chosen = rocks[Random.Range(0, rocks.Length)];
 
         while(chosen.GetComponent<RockSc>().held)
             chosen = rocks[Random.Range(0, rocks.Length)];  // choose again
 
         return chosen;
+    }
+
+    public bool IsInBox(Transform t) {
+        // TODO: fix
+        return t.position.y <= -2.5;
     }
 }
