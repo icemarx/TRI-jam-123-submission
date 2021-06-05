@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour
     // Recipe info
     public int[] recipe;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-
         rocks = GameObject.FindGameObjectsWithTag("Rock");
         Debug.Log(rocks.Length);
 
