@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrawberrySc : FruitSc
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class StrawberrySc : FruitSc {
+    public override void OnClicked() {
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void OnDropped() {
+        throw new System.NotImplementedException();
     }
 }

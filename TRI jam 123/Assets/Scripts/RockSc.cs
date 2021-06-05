@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockSc : NPC
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class RockSc : NPC {
+    public bool held = false;
+
+    public override void OnClicked() {
+        held = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void OnDropped() {
+        held = false;
     }
 }
