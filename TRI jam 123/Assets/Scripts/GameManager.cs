@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     private GameObject held_go = null;
     public readonly float BOX_LIMIT = -2.5f;
 
+    // Recipe info
+    public int[] recipe;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(rocks.Length);
 
         SpawnMissingFruit();
+        SetRecipe();
     }
 
     // Update is called once per frame
@@ -115,5 +119,47 @@ public class GameManager : MonoBehaviour
     public bool IsInBox(Transform t) {
         // TODO: fix
         return t.position.y <= BOX_LIMIT;
+    }
+
+    private void SetRecipe() {
+        recipe = new int[Fruit_GO_Types.Length];
+
+        for(int i = 0; i < recipe.Length; i++) {
+            recipe[i] = Random.Range(0, max_fruit_number+1);
+        }
+
+        bool all_zero = true;
+        for (int i = 0; i < recipe.Length; i++) {
+            if(recipe[i] != 0) {
+                all_zero = false;
+                break;
+            }
+        }
+
+        if (all_zero) SetRecipe();
+    }
+
+    public bool IsRecipeDone() {
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("Fruit");
+        int[] num_in_box = new int[Fruit_GO_Types.Length];
+
+        // count the fruit in the box
+        foreach(GameObject go in gos) {
+            FruitSc fruit = go.GetComponent<FruitSc>();
+
+            if (fruit.is_in_box)
+                num_in_box[fruit.f_type]++;
+        }
+
+        // compare recipe and box contents
+        for(int i = 0; i < Fruit_GO_Types.Length; i++) {
+            if(num_in_box[i] < recipe[i]) return false;
+        }
+
+        return true;
+    }
+
+    public void Win() {
+        Debug.Log("You're a Win!");
     }
 }

@@ -34,6 +34,8 @@ public class FruitSc : NPC
         is_in_box = GM.IsInBox(transform);
         
         Run();
+
+        if (GM.IsRecipeDone()) GM.Win();
     }
 
     public void Run() {
