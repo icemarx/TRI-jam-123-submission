@@ -32,15 +32,16 @@ public class FruitSc : NPC
         GetComponent<Collider2D>().enabled = true;
         
         is_in_box = GM.IsInBox(transform);
-
-        if (!is_in_box) {
-            Run();
-        }
+        
+        Run();
     }
 
     public void Run() {
-        is_running = true;
-        hiding_place = GM.GetRandomRock().GetComponent<RockSc>();
-        hiding_place.fruits_under_me.Add(gameObject);
+        if(!is_in_box) {
+            is_running = true;
+            hiding_place = GM.GetRandomRock().GetComponent<RockSc>();
+            hiding_place.fruits_under_me.Add(gameObject);
+
+        }
     }
 }
