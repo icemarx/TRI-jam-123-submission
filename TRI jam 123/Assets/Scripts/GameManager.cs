@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private int cursor_state = 0;
     private Vector3 to_go_held = Vector2.zero;
     private GameObject held_go = null;
+    public readonly float BOX_LIMIT = -2.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +61,10 @@ public class GameManager : MonoBehaviour
         if(cursor_state == CURSOR_STATE_DRAGGING) {
             if(held_go != null) {
                 held_go.transform.position = mousePos + to_go_held;
+
+                if (held_go.CompareTag("Rock") && IsInBox(held_go.transform)) {
+                    held_go.transform.position = new Vector3(held_go.transform.position.x, BOX_LIMIT, 0);
+                }
             }
         }
 
@@ -109,6 +114,6 @@ public class GameManager : MonoBehaviour
 
     public bool IsInBox(Transform t) {
         // TODO: fix
-        return t.position.y <= -2.5;
+        return t.position.y <= BOX_LIMIT;
     }
 }
