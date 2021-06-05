@@ -9,7 +9,7 @@ public class FruitSc : NPC
 
     public bool is_running = false;
     protected float speed = 0;
-    protected RockSc hiding_place;
+    public RockSc hiding_place;
 
     private void Start() {
         GM = FindObjectOfType<GameManager>();

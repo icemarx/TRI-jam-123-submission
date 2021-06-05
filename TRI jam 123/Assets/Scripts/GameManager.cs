@@ -37,12 +37,22 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) {
             cursor_state = CURSOR_STATE_DRAGGING;
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            RaycastHit2D[] hit = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
 
-            if(hit.collider != null && (hit.collider.CompareTag("Fruit") || hit.collider.CompareTag("Rock"))) {
-                held_go = hit.collider.gameObject;
+            GameObject found = null;
+            for(int i = 0; i < hit.Length; i++) {
+                if(hit[i].collider.CompareTag("Fruit")) {
+                    found = hit[i].collider.gameObject;
+                } else if(hit[i].collider.CompareTag("Rock")) {
+                    found = hit[i].collider.gameObject;
+                    break;
+                }
+            }
+
+            if (found != null) {
+                held_go = found;
                 to_go_held = held_go.transform.position - mousePos;
-                
+
                 held_go.GetComponent<NPC>().OnClicked();
             }
         }
@@ -80,6 +90,7 @@ public class GameManager : MonoBehaviour
                 GameObject r = GetRandomRock();
                 GameObject spawned = Instantiate(Fruit_GO_Types[i], r.transform.position, Quaternion.identity);
                 spawned.GetComponent<FruitSc>().f_type = i;
+                r.GetComponent<RockSc>().fruits_under_me.Add(spawned);
 
                 fruit[i]++;
             }
