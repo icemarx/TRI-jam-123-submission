@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StrawberrySc : FruitSc {
-    public override void OnClicked() {
-        throw new System.NotImplementedException();
-    }
+    public float my_speed = 1;
 
-    public override void OnDropped() {
-        throw new System.NotImplementedException();
+    private void Start() {
+        GM = FindObjectOfType<GameManager>();
+        speed = my_speed;
     }
 }
