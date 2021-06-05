@@ -50,7 +50,7 @@ MonoBehaviour:
   is_in_box: 0
   is_running: 0
   hiding_place: {fileID: 0}
-  my_speed: 0.1
+  my_speed: 0.09
 --- !u!61 &4011881897658667614
 BoxCollider2D:
   m_ObjectHideFlags: 0
