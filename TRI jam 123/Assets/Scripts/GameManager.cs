@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI grapeText;
     [SerializeField]
     private TextMeshProUGUI timerText;
+    [SerializeField]
+    private GameObject gameOverPanel;
+    [SerializeField]
+    private TextMeshProUGUI gameOverText;
 
     // Rock info
     private GameObject[] rocks;
@@ -38,6 +43,11 @@ public class GameManager : MonoBehaviour
     // Timer info
     private float timer = 0;
     private bool timer_running = false;
+
+    public void LoadScene(int i)
+    {
+        SceneManager.LoadScene(i);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -199,13 +209,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void Win() {
-        Debug.Log("You're a Win!");
+        //Debug.Log("A winer is you!");
         timer_running = false;
+        gameOverText.SetText("You win!");
+        gameOverPanel.SetActive(true);
     }
 
     public void Lose() {
-        Debug.Log("Ha ha, you're a lose!");
+        //Debug.Log("Ha ha, you're a lose!");
         timer_running = false;
+        gameOverText.SetText("You lose!");
+        gameOverPanel.SetActive(true);
     }
 
     private void SetTimer() {
