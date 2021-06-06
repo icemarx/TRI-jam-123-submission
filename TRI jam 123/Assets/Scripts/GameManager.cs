@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) {
             cursor_state = CURSOR_STATE_DRAGGING;
-
+            Cursor.lockState = CursorLockMode.Confined;
             RaycastHit2D[] hit = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
 
             GameObject found = null;
