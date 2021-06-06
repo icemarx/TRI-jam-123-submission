@@ -213,6 +213,7 @@ public class GameManager : MonoBehaviour
         timer_running = false;
         gameOverText.SetText("You win!");
         gameOverPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Lose() {
@@ -220,6 +221,7 @@ public class GameManager : MonoBehaviour
         timer_running = false;
         gameOverText.SetText("You lose!");
         gameOverPanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void SetTimer() {
